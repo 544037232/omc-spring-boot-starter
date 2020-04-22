@@ -8,7 +8,7 @@ package com.pricess.omc.exception;
 public class ObjectBuiltException extends RuntimeException {
 
     /**
-     * Constructs an {@code CalculateException} with the specified message and root
+     * Constructs an {@code ObjectBuiltException} with the specified message and root
      * cause.
      *
      * @param msg the detail message

@@ -15,7 +15,7 @@ public class ActionContextImpl implements ActionContext {
 
     private ParamAdapter paramAdapter;
 
-    private Map<Object,Object> process = new ConcurrentHashMap<>();
+    private final Map<String,Object> attr = new ConcurrentHashMap<>();
 
     private ResultToken resultToken;
 
@@ -33,13 +33,20 @@ public class ActionContextImpl implements ActionContext {
     }
 
     @Override
-    public void setProcessObj(Object key, Object val) {
-        process.put(key,val);
+    public void setAttribute(String key, Object val) {
+        synchronized (attr){
+            attr.put(key,val);
+        }
     }
 
     @Override
-    public Object getProcessObj(Object key) {
-        return process.get(key);
+    public Object getAttribute(String key) {
+        return attr.get(key);
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attr;
     }
 
     @Override

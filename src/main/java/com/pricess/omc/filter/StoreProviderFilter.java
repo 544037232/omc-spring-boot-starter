@@ -12,7 +12,7 @@ import java.util.List;
 
 public class StoreProviderFilter implements Filter {
 
-    private List<StoreProvider> storeProviders = new ArrayList<>();
+    private final List<StoreProvider> storeProviders = new ArrayList<>();
 
     public StoreProviderFilter(List<StoreProvider> storeProviders) {
         Assert.notNull(storeProviders, "this store providers can not be null");

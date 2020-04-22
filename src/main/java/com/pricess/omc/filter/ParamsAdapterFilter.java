@@ -13,29 +13,30 @@ import java.io.IOException;
  * @author pricess.wang
  * @date 2019/12/13 19:07
  */
-public class ParamsCheckFilter implements Filter {
+public class ParamsAdapterFilter implements Filter {
 
-    private ActionValidator actionValidator = new DefaultActionValidator();
+    private final ActionValidator actionValidator = new DefaultActionValidator();
 
     private ParamParser paramParser;
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse rep, FilterChain chain) throws IOException, ServletException {
 
-        if (paramParser == null){
+        if (paramParser == null) {
             chain.doFilter(req, rep);
             return;
         }
 
         HttpServletRequest request = (HttpServletRequest) req;
 
-        ParamAdapter paramAdapter = paramParser.build(request);
+        HttpServletResponse response = (HttpServletResponse) rep;
+        // 准备参数对象
+
+        ParamAdapter paramAdapter = paramParser.parser(request, response);
 
         ValidatorResult validatorResult = actionValidator.validate(paramAdapter);
 
         if (validatorResult != null) {
-            HttpServletResponse response = (HttpServletResponse) rep;
-
             response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
             response.getWriter().write(validatorResult.getErrorMsg());
             return;

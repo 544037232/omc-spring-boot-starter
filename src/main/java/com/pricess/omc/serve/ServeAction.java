@@ -3,7 +3,7 @@ package com.pricess.omc.serve;
 import com.pricess.omc.ActionBuilder;
 import com.pricess.omc.ActionMatcher;
 import com.pricess.omc.api.ProviderManager;
-import com.pricess.omc.configurer.ParamsCheckConfigurer;
+import com.pricess.omc.configurer.ParamsAdapterConfigurer;
 import com.pricess.omc.configurer.RequestMatcherConfigurer;
 import com.pricess.omc.configurer.ServiceProviderConfigurer;
 import com.pricess.omc.configurer.StoreProviderConfigurer;
@@ -36,13 +36,13 @@ import java.util.Map;
 public class ServeAction extends AbstractConfiguredObjectBuilder<ProviderManager, ServeAction>
         implements ObjectBuilder<ProviderManager>, ActionBuilder<ServeAction> {
 
-    private List<Filter> filters = new ArrayList<>();
+    private final List<Filter> filters = new ArrayList<>();
 
     private SuccessHandler successHandler = new NullSuccessHandler();
 
     private FailureHandler failureHandler = new NullFailureHandler();
 
-    private FilterComparator comparator = new FilterComparator();
+    private final FilterComparator comparator = new FilterComparator();
 
     private boolean debugEnabled;
 
@@ -119,10 +119,10 @@ public class ServeAction extends AbstractConfiguredObjectBuilder<ProviderManager
     }
 
     /**
-     * 参数校验
+     * 参数
      */
-    public ParamsCheckConfigurer<ServeAction> paramsCheck() throws Exception {
-        return getOrApply(new ParamsCheckConfigurer<>());
+    public ParamsAdapterConfigurer<ServeAction> params() throws Exception {
+        return getOrApply(new ParamsAdapterConfigurer<>());
     }
 
     /**

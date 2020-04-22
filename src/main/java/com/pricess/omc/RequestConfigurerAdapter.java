@@ -20,11 +20,11 @@ public class RequestConfigurerAdapter implements RequestConfigurer<ServeRequest>
 
     private ApplicationEventPublisher eventPublisher;
 
-    private ObjectPostProcessor<Object> objectPostProcessor = new ObjectPostProcessor<Object>() {
+    private final ObjectPostProcessor<Object> objectPostProcessor = new ObjectPostProcessor<Object>() {
         public <T> T postProcess(T object) {
             throw new IllegalStateException(
                     ObjectPostProcessor.class.getName()
-                            + " is a required bean. Ensure you have used @EnableAppRequest and @Configuration");
+                            + " is a required bean. Ensure you have used @Configuration");
         }
     };
 
@@ -50,7 +50,7 @@ public class RequestConfigurerAdapter implements RequestConfigurer<ServeRequest>
         serveAction = new ServeAction(objectPostProcessor, sharedObjects);
 
         serveAction
-                .paramsCheck()
+                .params()
                 .and()
                 .requestMatcher()
                 .and()

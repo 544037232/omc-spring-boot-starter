@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 
 public class FilterStoreTransactionInterceptor implements InvocationHandler {
 
-    private Object storeProxy;
+    private final Object storeProxy;
 
     /**
      * 事务管理器
@@ -51,4 +51,8 @@ public class FilterStoreTransactionInterceptor implements InvocationHandler {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return storeProxy.getClass().getSimpleName();
+    }
 }

@@ -15,7 +15,7 @@ public final class FilterComparator implements Comparator<Filter>, Serializable 
     public FilterComparator() {
         Step order = new Step(INITIAL_ORDER, ORDER_STEP);
         put(DebugFilter.class, order.next());
-        put(ParamsCheckFilter.class, order.next());
+        put(ParamsAdapterFilter.class, order.next());
         put(ResultBuilderFilter.class, order.next());
         put(ServiceProviderFilter.class, order.next());
         put(StoreProviderFilter.class, order.next());

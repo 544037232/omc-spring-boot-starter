@@ -7,4 +7,5 @@ import java.io.Serializable;
  * @date 2019/12/31 19:41
  */
 public interface ParamAdapter extends Serializable {
+
 }

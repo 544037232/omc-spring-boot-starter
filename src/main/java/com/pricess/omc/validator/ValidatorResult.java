@@ -11,7 +11,7 @@ import lombok.ToString;
 public class ValidatorResult {
 
     @Getter
-    private String errorMsg;
+    private final String errorMsg;
 
     public ValidatorResult(String errorMsg) {
         this.errorMsg = errorMsg;

@@ -1,12 +1,14 @@
 package com.pricess.omc.validator;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 请求参数解析器，用于对请求的参数进行校验，基于spring-boot-starter-validation框架实现
  * 实现ParamAdapter接口或继承默认的DefaultParamAdapter类，再在属性中添加注解，设定规则，即可进行统一校验
  * 具体注解如下(详细使用方式可参照官方文档):
  *
+ * @author pricess.wang
  * @ Null 限制只能为null
  * @ NotNull 限制必须不为null
  * @ AssertFalse 限制必须为false
@@ -24,11 +26,10 @@ import javax.servlet.http.HttpServletRequest;
  * @ NotEmpty 验证注解的元素值不为null且不为空（字符串长度不为0、集合大小不为0）
  * @ NotBlank 验证注解的元素值不为空（不为null、去除首位空格后长度为0），不同于@NotEmpty，@NotBlank只应用于字符串且在比较时会去除字符串的空格
  * @ Email 验证注解的元素值是Email，也可以通过正则表达式和flag指定自定义的email格式
- *
- * @author pricess.wang
  * @date 2019/12/31 19:39
  */
 public interface ParamParser {
 
-    ParamAdapter build(HttpServletRequest request);
+    ParamAdapter parser(HttpServletRequest request,
+                       HttpServletResponse response);
 }

@@ -1,17 +1,18 @@
 package com.pricess.omc.configurer;
 
 import com.pricess.omc.ActionBuilder;
-import com.pricess.omc.filter.ParamsCheckFilter;
+import com.pricess.omc.filter.ParamsAdapterFilter;
+import com.pricess.omc.validator.ParamAdapter;
 import com.pricess.omc.validator.ParamParser;
 
 /**
  * @author pricess.wang
  * @date 2019/12/13 18:50
  */
-public final class ParamsCheckConfigurer<B extends ActionBuilder<B>>
-        extends AbstractActionConfigurer<ParamsCheckConfigurer<B>, B> {
+public final class ParamsAdapterConfigurer<B extends ActionBuilder<B>>
+        extends AbstractActionConfigurer<ParamsAdapterConfigurer<B>, B> {
 
-    private final ParamsCheckFilter paramsCheckFilter = new ParamsCheckFilter();
+    private final ParamsAdapterFilter paramsCheckFilter = new ParamsAdapterFilter();
 
     private ParamParser paramParser;
 
@@ -34,7 +35,7 @@ public final class ParamsCheckConfigurer<B extends ActionBuilder<B>>
      *
      * @param paramParser 参数解析器
      */
-    public ParamsCheckConfigurer<B> actionParamParser(ParamParser paramParser) {
+    public ParamsAdapterConfigurer<B> actionParamParser(ParamParser paramParser) {
         this.paramParser = paramParser;
         return this;
     }

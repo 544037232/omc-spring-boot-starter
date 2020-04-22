@@ -26,7 +26,7 @@ public class ServeRequest extends AbstractConfiguredObjectBuilder<Filter, ServeR
         super(objectPostProcessor);
     }
 
-    private Collection<String> urls = new ArrayList<>();
+    private final Collection<String> urls = new ArrayList<>();
 
     @Override
     protected Filter performBuild() throws Exception {
