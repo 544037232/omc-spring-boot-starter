@@ -13,7 +13,7 @@ import java.util.List;
 public class ServiceProviderConfigurer<B extends ActionBuilder<B>>
         extends AbstractActionConfigurer<ServiceProviderConfigurer<B>, B> {
 
-    private List<ServiceProvider> serviceProviders = new ArrayList<>();
+    private final List<ServiceProvider> serviceProviders = new ArrayList<>();
 
     private ResultProcessing resultProcessing;
 

@@ -5,7 +5,7 @@ import com.pricess.omc.ActionRequestMatcher;
 import org.springframework.http.HttpMethod;
 import org.springframework.util.StringUtils;
 
-public class RequestMatcherConfigurer<B extends ActionBuilder<B>>
+public class   RequestMatcherConfigurer<B extends ActionBuilder<B>>
         extends AbstractActionConfigurer<RequestMatcherConfigurer<B>, B> {
 
     private String url;

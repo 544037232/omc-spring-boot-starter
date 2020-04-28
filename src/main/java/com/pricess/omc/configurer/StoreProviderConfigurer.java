@@ -1,6 +1,7 @@
 package com.pricess.omc.configurer;
 
 import com.pricess.omc.ActionBuilder;
+import com.pricess.omc.api.Filter;
 import com.pricess.omc.api.StoreProvider;
 import com.pricess.omc.filter.StoreProviderFilter;
 import com.pricess.omc.filter.interceptor.FilterStoreTransactionInterceptor;
@@ -9,7 +10,6 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import javax.servlet.Filter;
 import javax.sql.DataSource;
 import java.lang.reflect.Proxy;
 import java.util.LinkedList;
@@ -17,7 +17,7 @@ import java.util.LinkedList;
 public class StoreProviderConfigurer<B extends ActionBuilder<B>>
         extends AbstractActionConfigurer<StoreProviderConfigurer<B>, B> {
 
-    private LinkedList<StoreProvider> storeProviders = new LinkedList<>();
+    private final LinkedList<StoreProvider> storeProviders = new LinkedList<>();
 
     private final ApplicationContext context;
 
@@ -60,9 +60,9 @@ public class StoreProviderConfigurer<B extends ActionBuilder<B>>
 
     public class TransactionConfig implements TransactionBuilder<B> {
 
-        private ApplicationContext context;
+        private final ApplicationContext context;
 
-        private StoreProviderConfigurer<B> configurer;
+        private final StoreProviderConfigurer<B> configurer;
 
         private Transaction<B> transaction = new NoneTransaction();
 
@@ -92,7 +92,7 @@ public class StoreProviderConfigurer<B extends ActionBuilder<B>>
 
         public class JdbcTransaction implements Transaction<B> {
 
-            private StoreProviderConfigurer<B> configurer;
+            private final StoreProviderConfigurer<B> configurer;
 
             /**
              * 事务管理器
@@ -102,7 +102,7 @@ public class StoreProviderConfigurer<B extends ActionBuilder<B>>
             /**
              * 事务传播机制
              */
-            private DefaultTransactionDefinition transDefinition = new DefaultTransactionDefinition(DefaultTransactionDefinition.PROPAGATION_REQUIRES_NEW);
+            private final DefaultTransactionDefinition transDefinition = new DefaultTransactionDefinition(DefaultTransactionDefinition.PROPAGATION_REQUIRES_NEW);
 
             public JdbcTransaction(ApplicationContext context, StoreProviderConfigurer<B> configurer) {
                 DataSource dataSource = context.getBean(DataSource.class);

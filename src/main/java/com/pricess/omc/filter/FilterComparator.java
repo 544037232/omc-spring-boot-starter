@@ -1,6 +1,7 @@
 package com.pricess.omc.filter;
 
-import javax.servlet.Filter;
+import com.pricess.omc.api.Filter;
+
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -85,7 +86,7 @@ public final class FilterComparator implements Comparator<Filter>, Serializable 
      * @param clazz the {@link Filter} class to determine the sort order
      * @return the sort order or null if not defined
      */
-    private Integer getOrder(Class<?> clazz) {
+    public Integer getOrder(Class<?> clazz) {
         while (clazz != null) {
             Integer result = filterToOrder.get(clazz.getName());
             if (result != null) {

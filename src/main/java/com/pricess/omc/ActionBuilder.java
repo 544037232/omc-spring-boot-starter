@@ -1,10 +1,9 @@
 package com.pricess.omc;
 
+import com.pricess.omc.api.Filter;
 import com.pricess.omc.api.ProviderManager;
 import com.pricess.omc.core.ObjectBuilder;
 import com.pricess.omc.core.ObjectConfigurer;
-
-import javax.servlet.Filter;
 
 /**
  * 应用请求构建接口

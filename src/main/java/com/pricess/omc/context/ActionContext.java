@@ -39,10 +39,11 @@ public interface ActionContext extends Serializable {
     /**
      * 获取上下文中的变量值
      * @param name key
+     * @param <T> 返回对象
      * @return value
-     * @see 1.0.1
+     * @see 1.0.2
      */
-    Object getAttribute(String name);
+    <T> T getAttribute(String name);
 
     /**
      * 获取所有变量及变量值

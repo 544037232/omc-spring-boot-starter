@@ -1,5 +1,6 @@
 package com.pricess.omc.filter;
 
+import com.pricess.omc.api.Filter;
 import com.pricess.omc.api.ProviderManager;
 import com.pricess.omc.util.RequestUtils;
 import org.apache.commons.logging.Log;
@@ -109,7 +110,7 @@ public class DebugFilter implements Filter {
         } else {
             sb.append("[\n");
             for (T t : list) {
-                sb.append("   ").append(t.getClass().getSimpleName()).append("\n");
+                sb.append("   ").append(t.toString()).append("\n");
             }
             sb.append("]");
         }
@@ -117,11 +118,6 @@ public class DebugFilter implements Filter {
         return sb.toString();
     }
 
-    public void init(FilterConfig filterConfig) throws ServletException {
-    }
-
-    public void destroy() {
-    }
 }
 
 class DebugRequestWrapper extends HttpServletRequestWrapper {

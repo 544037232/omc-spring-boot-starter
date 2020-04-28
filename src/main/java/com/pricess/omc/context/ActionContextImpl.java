@@ -4,7 +4,7 @@ import com.pricess.omc.ResultToken;
 import com.pricess.omc.validator.ParamAdapter;
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 public class ActionContextImpl implements ActionContext {
 
@@ -15,7 +15,7 @@ public class ActionContextImpl implements ActionContext {
 
     private ParamAdapter paramAdapter;
 
-    private final Map<String,Object> attr = new ConcurrentHashMap<>();
+    private final Map<String, Object> attr = new ConcurrentSkipListMap<>();
 
     private ResultToken resultToken;
 
@@ -34,14 +34,15 @@ public class ActionContextImpl implements ActionContext {
 
     @Override
     public void setAttribute(String key, Object val) {
-        synchronized (attr){
-            attr.put(key,val);
+        synchronized (attr) {
+            attr.put(key, val);
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Object getAttribute(String key) {
-        return attr.get(key);
+    public <T> T getAttribute(String key) {
+        return (T) attr.get(key);
     }
 
     @Override
