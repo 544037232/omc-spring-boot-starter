@@ -22,9 +22,10 @@ public class ActionContextImpl implements ActionContext {
     // ~ Methods
     // ========================================================================================================
 
+    @SuppressWarnings("unchecked")
     @Override
-    public ParamAdapter getParamAdapter() {
-        return paramAdapter;
+    public <P extends ParamAdapter> P getParamAdapter() {
+        return (P) paramAdapter;
     }
 
     @Override
@@ -55,9 +56,10 @@ public class ActionContextImpl implements ActionContext {
         this.resultToken = result;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public ResultToken getResult() {
-        return resultToken;
+    public <R extends ResultToken> R getResult() {
+        return (R) resultToken;
     }
 
 }

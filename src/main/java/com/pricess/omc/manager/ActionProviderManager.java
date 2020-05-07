@@ -90,12 +90,13 @@ public class ActionProviderManager implements ProviderManager {
         }
 
         if (continueChainBeforeSuccessfulFilter) {
+            // 如果允许执行，则将响应传递交由spring的controller
             filterChain.doFilter(req, rep);
+        } else {
+            ResultToken result = ActionContextHolder.getContext().getResult();
+
+            successfulExecutor(request, response, result);
         }
-
-        ResultToken result = ActionContextHolder.getContext().getResult();
-
-        successfulExecutor(request, response, result);
     }
 
     private void successfulExecutor(HttpServletRequest request, HttpServletResponse response, ResultToken resultToken) throws IOException, ServletException {

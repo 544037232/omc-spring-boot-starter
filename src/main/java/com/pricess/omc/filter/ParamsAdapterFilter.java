@@ -2,8 +2,12 @@ package com.pricess.omc.filter;
 
 import com.pricess.omc.api.Filter;
 import com.pricess.omc.context.ActionContextHolder;
+import com.pricess.omc.param.HandlerObject;
+import com.pricess.omc.param.InvocableHandlerObject;
 import com.pricess.omc.validator.*;
+import lombok.SneakyThrows;
 import org.springframework.http.MediaType;
+import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -21,12 +25,13 @@ public class ParamsAdapterFilter implements Filter {
 
     private final ActionValidator actionValidator = new DefaultActionValidator();
 
-    private ParamParser paramParser;
+    private HandlerObject handlerObject;
 
+    @SneakyThrows
     @Override
     public void doFilter(ServletRequest req, ServletResponse rep, FilterChain chain) throws IOException, ServletException {
 
-        if (paramParser == null) {
+        if (handlerObject == null) {
             chain.doFilter(req, rep);
             return;
         }
@@ -34,9 +39,12 @@ public class ParamsAdapterFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
 
         HttpServletResponse response = (HttpServletResponse) rep;
-        // 准备参数对象
 
-        ParamAdapter paramAdapter = paramParser.parser(request, response);
+        ServletWebRequest webRequest = new ServletWebRequest(request, response);
+
+        InvocableHandlerObject invocableHandlerObject = createInvocableHandlerObject(handlerObject);
+
+        ParamAdapter paramAdapter = invocableHandlerObject.invokeAndHandle(webRequest);
 
         ValidatorResult validatorResult = actionValidator.validate(paramAdapter);
 
@@ -51,7 +59,11 @@ public class ParamsAdapterFilter implements Filter {
         chain.doFilter(req, rep);
     }
 
-    public void setActionParamParser(ParamParser paramParser) {
-        this.paramParser = paramParser;
+    private InvocableHandlerObject createInvocableHandlerObject(HandlerObject handlerObject) {
+        return new InvocableHandlerObject(handlerObject);
+    }
+
+    public void setHandlerObject(HandlerObject handlerObject) {
+        this.handlerObject = handlerObject;
     }
 }
