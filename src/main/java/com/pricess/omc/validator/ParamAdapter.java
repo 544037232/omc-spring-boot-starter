@@ -1,5 +1,7 @@
 package com.pricess.omc.validator;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
 
 /**
@@ -8,4 +10,10 @@ import java.io.Serializable;
  */
 public interface ParamAdapter extends Serializable {
 
+    default <T extends ParamAdapter> void preValidate(T t, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    }
+
+
+    default <T extends ParamAdapter> void afterValidate(T t, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    }
 }

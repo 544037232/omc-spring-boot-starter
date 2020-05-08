@@ -1,6 +1,7 @@
 package com.pricess.omc.serve;
 
 import com.pricess.omc.ActionBuilder;
+import com.pricess.omc.endpoint.ActionEndpoint;
 import com.pricess.omc.ActionMatcher;
 import com.pricess.omc.api.Filter;
 import com.pricess.omc.api.ProviderManager;
@@ -49,6 +50,8 @@ public class ServeAction extends AbstractConfiguredObjectBuilder<ProviderManager
     private ActionMatcher actionMatcher;
 
     private boolean continueChainBeforeSuccessfulFilter = false;
+
+    private ActionEndpoint endpoint;
 
     @SuppressWarnings("unchecked")
     public ServeAction(ObjectPostProcessor<Object> objectPostProcessor, Map<Class<?>, Object> sharedObjects) {
@@ -116,6 +119,9 @@ public class ServeAction extends AbstractConfiguredObjectBuilder<ProviderManager
             actionProviderManager.setEventPublisher(eventPublisher);
         }
 
+        if (endpoint != null) {
+            actionProviderManager.setEndpoint(endpoint);
+        }
         return actionProviderManager;
     }
 
@@ -159,6 +165,11 @@ public class ServeAction extends AbstractConfiguredObjectBuilder<ProviderManager
 
     public ServeAction continueChainBeforeSuccessfulFilter(boolean continueChainBeforeSuccessfulFilter) {
         this.continueChainBeforeSuccessfulFilter = continueChainBeforeSuccessfulFilter;
+        return this;
+    }
+
+    public ServeAction endpoint(ActionEndpoint endpoint) {
+        this.endpoint = endpoint;
         return this;
     }
 

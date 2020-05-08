@@ -8,6 +8,8 @@ import org.springframework.web.context.request.ServletWebRequest;
 import java.lang.reflect.Field;
 
 /**
+ * 对象转换代理类
+ *
  * @author <a href="mailto:544037232@qq.com">pricess.wang</a>
  * @see 1.0.3
  * @since 2020/5/6
@@ -37,25 +39,14 @@ public class InvocableHandlerObject extends HandlerObject {
 
         for (ObjectParameter parameter : parameters) {
 
-            try {
-                Object value = parameter.getResolver().resolveArgument(parameter, request);
+            Object value = parameter.getResolver().resolveArgument(parameter, request);
 
-                Field field = paramAdapter.getClass().getDeclaredField(parameter.getParameterName());
+            Field field = paramAdapter.getClass().getDeclaredField(parameter.getParameterName());
 
-                field.setAccessible(true);
+            field.setAccessible(true);
 
-                field.set(paramAdapter, value);
+            field.set(paramAdapter, value);
 
-            } catch (Exception ex) {
-                // Leave stack trace for later, exception may actually be resolved and handled...
-                if (logger.isDebugEnabled()) {
-                    String exMsg = ex.getMessage();
-                    if (exMsg != null && !exMsg.contains(parameter.getParameterType().toGenericString())) {
-                        logger.debug(formatArgumentError(parameter, exMsg));
-                    }
-                }
-                throw ex;
-            }
         }
     }
 }

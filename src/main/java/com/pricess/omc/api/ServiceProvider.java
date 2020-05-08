@@ -9,5 +9,4 @@ public interface ServiceProvider {
 
     ResultToken provider(ResultToken token);
 
-    boolean supports(Class<?> context);
 }

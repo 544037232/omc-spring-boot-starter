@@ -5,7 +5,6 @@ import com.pricess.omc.context.ActionContextHolder;
 import com.pricess.omc.param.HandlerObject;
 import com.pricess.omc.param.InvocableHandlerObject;
 import com.pricess.omc.validator.*;
-import lombok.SneakyThrows;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -27,7 +26,6 @@ public class ParamsAdapterFilter implements Filter {
 
     private HandlerObject handlerObject;
 
-    @SneakyThrows
     @Override
     public void doFilter(ServletRequest req, ServletResponse rep, FilterChain chain) throws IOException, ServletException {
 
@@ -44,17 +42,26 @@ public class ParamsAdapterFilter implements Filter {
 
         InvocableHandlerObject invocableHandlerObject = createInvocableHandlerObject(handlerObject);
 
-        ParamAdapter paramAdapter = invocableHandlerObject.invokeAndHandle(webRequest);
+        try {
+            ParamAdapter paramAdapter = invocableHandlerObject.invokeAndHandle(webRequest);
 
-        ValidatorResult validatorResult = actionValidator.validate(paramAdapter);
+            paramAdapter.preValidate(paramAdapter, request, response);
 
-        if (validatorResult != null) {
-            response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-            response.getWriter().write(validatorResult.getErrorMsg());
-            return;
+            ValidatorResult validatorResult = actionValidator.validate(paramAdapter);
+
+            if (validatorResult != null) {
+                response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+                response.getWriter().write(validatorResult.getErrorMsg());
+                return;
+            }
+
+            paramAdapter.afterValidate(paramAdapter, request, response);
+
+            ActionContextHolder.getContext().setParamAdapter(paramAdapter);
+
+        } catch (Exception e) {
+            throw new ServletException(e.getMessage(), e);
         }
-
-        ActionContextHolder.getContext().setParamAdapter(paramAdapter);
 
         chain.doFilter(req, rep);
     }

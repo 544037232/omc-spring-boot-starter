@@ -28,9 +28,9 @@ public class SegmentLockComponent<T> {
     }
 
     public void lock(T key) {
-        ReentrantLock lock = lockMap.get((key.hashCode()>>>1) % segments);
+        ReentrantLock lock = lockMap.get((key.hashCode() >>> 1) % segments);
 
-        if (lock.isLocked()){
+        if (lock.isLocked()) {
             throw new LockBusyException("业务繁忙,请稍后重试");
         }
 
@@ -38,7 +38,7 @@ public class SegmentLockComponent<T> {
     }
 
     public void unlock(T key) {
-        ReentrantLock lock = lockMap.get((key.hashCode()>>>1) % segments);
+        ReentrantLock lock = lockMap.get((key.hashCode() >>> 1) % segments);
         lock.unlock();
     }
 

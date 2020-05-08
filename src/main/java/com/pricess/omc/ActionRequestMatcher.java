@@ -4,11 +4,11 @@ import org.springframework.http.HttpMethod;
 
 public class ActionRequestMatcher implements ActionMatcher {
 
-    private String url;
+    private final String url;
 
-    private String actionName;
+    private final String actionName;
 
-    private HttpMethod httpMethod;
+    private final HttpMethod httpMethod;
 
     public ActionRequestMatcher (String url,String actionName,HttpMethod httpMethod){
         this.url = url;

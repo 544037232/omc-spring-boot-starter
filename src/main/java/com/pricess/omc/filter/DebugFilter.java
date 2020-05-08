@@ -19,7 +19,7 @@ import java.util.List;
  * 应用过滤器debug，用于测试调试用，可查看具体执行的filter和顺序已经provider
  *
  * @author pricess.wang
- * @date 2019/12/13 18:30
+ * @since  2019/12/13 18:30
  */
 public class DebugFilter implements Filter {
     static final String ALREADY_FILTERED_ATTR_NAME = DebugFilter.class.getName()
@@ -33,9 +33,9 @@ public class DebugFilter implements Filter {
         this.providerManager = providerManager;
     }
 
+    @Override
     public final void doFilter(ServletRequest srvltRequest,
-                               ServletResponse srvltResponse, FilterChain filterChain)
-            throws ServletException, IOException {
+                               ServletResponse srvltResponse, FilterChain filterChain) throws IOException, ServletException {
 
         if (!(srvltRequest instanceof HttpServletRequest)
                 || !(srvltResponse instanceof HttpServletResponse)) {
@@ -59,8 +59,7 @@ public class DebugFilter implements Filter {
 
 
     private void invokeWithWrappedRequest(HttpServletRequest request,
-                                          HttpServletResponse response, FilterChain filterChain) throws IOException,
-            ServletException {
+                                          HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         request.setAttribute(ALREADY_FILTERED_ATTR_NAME, Boolean.TRUE);
         request = new DebugRequestWrapper(request);
         try {

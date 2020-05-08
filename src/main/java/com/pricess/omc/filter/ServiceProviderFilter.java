@@ -36,18 +36,13 @@ public class ServiceProviderFilter implements Filter {
 
         ResultToken result = ActionContextHolder.getContext().getResult();
 
-        if (result != null){
+        for (ServiceProvider serviceProvider : serviceProviders) {
 
-            for (ServiceProvider serviceProvider : serviceProviders) {
-
-                if (serviceProvider.supports(result.getClass())){
-                    result = serviceProvider.provider(result);
-                }
-            }
-
-            ActionContextHolder.getContext().setResult(result);
+            result = serviceProvider.provider(result);
         }
 
-        chain.doFilter(request,response);
+        ActionContextHolder.getContext().setResult(result);
+
+        chain.doFilter(request, response);
     }
 }

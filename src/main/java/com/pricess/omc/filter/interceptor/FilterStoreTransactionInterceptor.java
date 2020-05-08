@@ -5,7 +5,6 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class FilterStoreTransactionInterceptor implements InvocationHandler {
@@ -41,12 +40,7 @@ public class FilterStoreTransactionInterceptor implements InvocationHandler {
 
         } catch (Exception e) {
             transactionManager.rollback(transStatus);
-
-            if (e instanceof InvocationTargetException) {
-                throw ((InvocationTargetException) e).getTargetException();
-            }
-
-            throw e;
+            throw e.getCause();
         }
         return result;
     }
