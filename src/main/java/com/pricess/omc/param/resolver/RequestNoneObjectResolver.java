@@ -17,7 +17,7 @@ public class RequestNoneObjectResolver implements HandlerObjectArgumentResolver 
 
     @Override
     public boolean supportsParameter(ObjectParameter parameter) {
-        return parameter.getParameterAnnotations() == null &&
+        return (parameter.getParameterAnnotations() == null || parameter.getParameterAnnotations().length == 0) &&
                 !BeanUtils.isSimpleProperty(parameter.getParameterType());
     }
 

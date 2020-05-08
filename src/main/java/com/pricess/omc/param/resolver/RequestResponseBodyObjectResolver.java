@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.pricess.omc.annotation.RequestBody;
+import com.pricess.omc.param.BodyCheckingHttpInputMessage;
 import com.pricess.omc.param.HandlerObjectArgumentResolver;
 import com.pricess.omc.param.ObjectParameter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -42,7 +43,13 @@ public class RequestResponseBodyObjectResolver implements HandlerObjectArgumentR
         Assert.state(servletRequest != null, "No HttpServletRequest");
         ServletServerHttpRequest inputMessage = new ServletServerHttpRequest(servletRequest);
 
-        Object arg = objectMapper.readValue(inputMessage.getBody(),getJavaType(parameter.getGenericParameterType()));
+        BodyCheckingHttpInputMessage message = new BodyCheckingHttpInputMessage(inputMessage);
+
+        Object arg = null;
+
+        if (message.hasBody()){
+            arg= objectMapper.readValue(message.getBody(),getJavaType(parameter.getGenericParameterType()));
+        }
 
         if (arg == null && checkRequired(parameter)) {
             throw new HttpMessageNotReadableException("Required request body is missing: " +
